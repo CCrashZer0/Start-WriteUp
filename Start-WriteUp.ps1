@@ -1,18 +1,14 @@
-[CmdletBinding()]
 Param (
     [string]$name,
     [string]$dir,
     [string]$platform,
     [string]$version
 )
- 
+$folder = $name.Replace(' ','')
 
+New-Item -Path "$dir\$folder\images" -ItemType Directory -Force | Out-Null
 
-$folder = $dir -replace '\s',''
-
-
-New-Item -Path "$folder\images" -ItemType Directory -Force | Out-Null
-New-Item -Path "$name" -Name "$name.md" -ItemType File -Force | Out-Null
+New-Item -Path "$dir\$folder" -Name "$folder.md" -ItemType File -Force | Out-Null
 
 $content = "# $platform - $name `n 
 ---
@@ -20,17 +16,14 @@ $content = "# $platform - $name `n
 ---`n 
 ## Sacnning & Enumeration `n
 ---
-# Congratulations you have just completed the $platform challenge!
+# Congratulations you have just completed the $name from $platform challenge!
 "
 
-Add-Content -Path "$folder/$name.md" -Value "$content"
+Add-Content -Path "$dir\$folder\$folder.md" -Value "$content"
 
 
-# switch -Exact ($version) {
-#     {[string]::IsNullOrWhiteSpace($version)} {
-#     }
-
-#     {$_ -match 'v' -or 'version'} {
-#         Get-Content .\version.ps1
-#     }
-# }
+Switch ($version)
+{
+    $true {Get-Content .\version.ps1}
+    $false {}
+}
