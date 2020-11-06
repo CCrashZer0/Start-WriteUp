@@ -22,7 +22,7 @@ function Create-WriteUp {
     "
     
     Add-Content -Path "$dir\$folder\$folder.md" -Value "$content"
-    
+    Write-Host "[+] $name template has been created." -ForegroundColor Green
     
     Switch ($version)
     {
